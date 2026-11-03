@@ -1,4 +1,36 @@
 document.addEventListener('DOMContentLoaded', () => {
+
+    // Auto Redirection to Technula with 5s Timer
+    const TARGET_URL = 'https://technula.com/saas';
+    const timerEl = document.getElementById('redirect-timer');
+    const timeEl = document.getElementById('redirect-time');
+    const redirectBtn = document.getElementById('redirect-btn');
+
+    if (timeEl) {
+        timeEl.textContent = new Date().toUTCString();
+    }
+
+    if (redirectBtn) {
+        redirectBtn.href = TARGET_URL;
+    }
+
+    if (timerEl) {
+        let timeLeft = 5;
+        const countdownInterval = setInterval(() => {
+            timeLeft--;
+            if (timerEl) {
+                timerEl.textContent = timeLeft;
+            }
+            if (timeEl) {
+                timeEl.textContent = new Date().toUTCString();
+            }
+            if (timeLeft <= 0) {
+                clearInterval(countdownInterval);
+                window.location.href = TARGET_URL;
+            }
+        }, 1000);
+    }
+
     // Navbar scroll effect
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => {
@@ -20,6 +52,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
                 entry.target.classList.add('animate-fade-in');
 
                 // Trigger counters if present
@@ -48,9 +82,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }, observerOptions);
 
     // Elements to animate
-    const animateElements = document.querySelectorAll('.service-card, .portfolio-item, .testimonial-card');
+    const animateElements = document.querySelectorAll('.service-card, .portfolio-item, .glass-card, section h2, .animate-fade-in');
     animateElements.forEach(el => {
         el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'all 0.8s ease-out';
         observer.observe(el);
     });
 
